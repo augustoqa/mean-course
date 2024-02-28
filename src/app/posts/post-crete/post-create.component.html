@@ -1,7 +1,10 @@
 <mat-card>
   <mat-card-content>
     <mat-form-field>
-      <textarea rows="6" [(ngModel)]="enteredValue" matInput></textarea>
+      <input matInput type="text" [(ngModel)]="enteredTitle" />
+    </mat-form-field>
+    <mat-form-field>
+      <textarea rows="6" [(ngModel)]="enteredContent" matInput></textarea>
     </mat-form-field>
   </mat-card-content>
   <mat-card-actions align="end">
