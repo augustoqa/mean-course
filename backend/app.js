@@ -37,4 +37,12 @@ app.post('/api/posts', async (req, res) => {
   })
 })
 
+app.delete('/api/posts/:id', async (req, res) => {
+  await Post.deleteOne({ _id: req.params.id })
+
+  res.status(200).json({
+    message: 'Post deleted!',
+  })
+})
+
 module.exports = app
