@@ -1,31 +1,23 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
+const bodyParser = require('body-parser')
 
-const Port = require('./models/post')
+const Post = require('./models/post')
 
 const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
 
 mongoose
   .connect(
-    'mongodb+srv://mean:hnusDzKhO7w1wq8z@cluster0.vrn9p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+    'mongodb+srv://mean:hnusDzKhO7w1wq8z@cluster0.vrn9p.mongodb.net/node-angular?retryWrites=true&w=majority&appName=Cluster0'
   )
   .then(() => console.log('Connected to the database'))
   .catch(() => console.log('Connection failed!'))
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader(
-    'Access-Control-Allow-Header',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
-  )
-  next()
-})
-
-app.use('/api/posts', (req, res, next) => {
+app.get('/api/posts', (req, res, next) => {
   const posts = [
     {
       id: 'fafkd232',
@@ -45,11 +37,12 @@ app.use('/api/posts', (req, res, next) => {
   })
 })
 
-app.post('/api/posts', (req, res) => {
+app.post('/api/posts', async (req, res) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
   })
+  await post.save()
   console.log(post)
   res.status(201).json({
     message: 'Post added successfully',
