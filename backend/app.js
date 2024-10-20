@@ -40,6 +40,19 @@ app.post('/api/posts', async (req, res) => {
   })
 })
 
+app.put('/api/posts/:id', (req, res, next) => {
+  const post = new Post({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content,
+  })
+
+  Post.updateOne({ _id: req.params.id }, post).then((result) => {
+    console.log(result)
+    res.status(200).json({ message: 'Update successfully!' })
+  })
+})
+
 app.delete('/api/posts/:id', async (req, res) => {
   await Post.deleteOne({ _id: req.params.id })
 
